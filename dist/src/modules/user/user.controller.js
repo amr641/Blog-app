@@ -24,10 +24,10 @@ const login = (0, catchErrors_1.catchError)(async (req, res, next) => {
     if (!user || !bcrypt_1.default.compare(req.body.password, user.password))
         return next(new appError_1.AppError("incorrect email or password", 403));
     let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, "amoor");
-    let posts = await postModel_1.Post.find({ finished: true });
+    let posts = await postModel_1.Post.find({ finished: true }).populate("comments");
     return res
         .status(201)
-        .json({ message: "loggedin...", token, [`welcome back ${user.name}`]: posts });
+        .json({ message: `welcome back ${user.name}`, token, posts });
 });
 exports.login = login;
 // only the user can update his profile

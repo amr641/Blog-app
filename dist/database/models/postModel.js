@@ -12,11 +12,8 @@ const postSchema = new mongoose_1.Schema({
     tags: [String],
     finished: {
         type: Boolean,
-        default: true
+        default: true,
     },
-    comments: {
-        type: mongoose_1.Types.ObjectId,
-        ref: "Comment",
-    },
+    comments: [{ type: mongoose_1.Types.ObjectId, ref: "Comment" }],
 });
 exports.Post = (0, mongoose_1.model)("Post", postSchema);

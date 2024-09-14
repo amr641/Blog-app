@@ -30,10 +30,10 @@ const login = catchError(
       { userId: user._id, name: user.name, email: user.email },
       "amoor"
     );
-    let posts = await Post.find({finished:true});
+    let posts = await Post.find({finished:true}).populate("comments");
     return res
       .status(201)
-      .json({ message: "loggedin...", token, [`welcome back ${user.name}`]: posts });
+      .json({ message: `welcome back ${user.name}`, token,posts});
   }
 );
 // only the user can update his profile

@@ -1,6 +1,6 @@
 import { Schema, Types, model } from "mongoose";
 
-const postSchema = new Schema({
+const commentSchema = new Schema({
   user: {
     type: Types.ObjectId,
     ref: "User",
@@ -17,4 +17,4 @@ const postSchema = new Schema({
     },
   ],
 });
-export const Comment = model("Post", postSchema);
+export const Comment = model("Comment", commentSchema);
