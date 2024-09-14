@@ -10,5 +10,6 @@ exports.postRouter
     .use(verifiyToken_1.verfifyToken)
     .post("/addPost", post_controller_1.addPost)
     .get("/allPosts", post_controller_1.getAllPosts)
+    .get("/unFinished-posts", post_controller_1.getUnFinishedPosts)
     .patch("/edit-post/:id", post_controller_1.editPost)
     .delete("/delete-post/:id", post_controller_1.deletePost);

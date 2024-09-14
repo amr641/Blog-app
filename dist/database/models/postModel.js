@@ -10,7 +10,7 @@ const postSchema = new mongoose_1.Schema({
     content: String,
     category: String,
     tags: [String],
-    drafts: {
+    finished: {
         type: Boolean,
         default: true
     },

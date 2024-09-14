@@ -14,7 +14,7 @@ const signUp = catchError(
     req.body.avatar = req.file?.filename;
     let user = await User.create(req.body);
     let token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { userId: user._id, name: user.name, email: user.email },
       "amoor"
     );
     return res.status(201).json({ message: "success", token });
@@ -27,13 +27,13 @@ const login = catchError(
     if (!user || !bcrypt.compare(req.body.password, user.password))
       return next(new AppError("incorrect email or password", 403));
     let token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { userId: user._id, name: user.name, email: user.email },
       "amoor"
     );
-    let posts = await Post.find({ user: req.user?.userId });
+    let posts = await Post.find({finished:true});
     return res
       .status(201)
-      .json({ message: "loggedin...", token, ["your posts"]: posts });
+      .json({ message: "loggedin...", token, [`welcome back ${user.name}`]: posts });
   }
 );
 // only the user can update his profile

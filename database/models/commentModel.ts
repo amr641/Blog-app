@@ -1,16 +1,20 @@
 import { Schema, Types, model } from "mongoose";
 
 const postSchema = new Schema({
-    user: {
+  user: {
+    type: Types.ObjectId,
+    ref: "User",
+  },
+  edited: {
+    type: Boolean,
+    default: false,
+  },
+  content: String,
+  replies: [
+    {
       type: Types.ObjectId,
-      ref: "User",
+      ref: "Reply",
     },
-    constent: String,
-    category: String,
-    tags: [String],
-    comments: {
-      type: Types.ObjectId,
-      ref: "Comment",
-    },
-  });
-  export const Comment= model("Post",postSchema)
+  ],
+});
+export const Comment = model("Post", postSchema);

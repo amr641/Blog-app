@@ -7,12 +7,16 @@ const postSchema = new mongoose_1.Schema({
         type: mongoose_1.Types.ObjectId,
         ref: "User",
     },
-    constent: String,
-    category: String,
-    tags: [String],
-    comments: {
-        type: mongoose_1.Types.ObjectId,
-        ref: "Comment",
+    edited: {
+        type: Boolean,
+        default: false,
     },
+    content: String,
+    replies: [
+        {
+            type: mongoose_1.Types.ObjectId,
+            ref: "Reply",
+        },
+    ],
 });
 exports.Comment = (0, mongoose_1.model)("Post", postSchema);

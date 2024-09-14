@@ -9,7 +9,7 @@ const postSchema = new Schema({
   content: String,
   category: String,
   tags: [String],
-  drafts:{
+  finished:{
     type:Boolean,
     default:true
   },
