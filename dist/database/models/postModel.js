@@ -14,6 +14,14 @@ const postSchema = new mongoose_1.Schema({
         type: Boolean,
         default: true,
     },
+    scheduled: {
+        type: Boolean,
+        default: false
+    },
+    publishDate: {
+        type: Date,
+        default: Date.now(),
+    },
     comments: [{ type: mongoose_1.Types.ObjectId, ref: "Comment" }],
 });
 exports.Post = (0, mongoose_1.model)("Post", postSchema);

@@ -1,4 +1,3 @@
-import { boolean } from "joi";
 import { Schema, Types, model } from "mongoose";
 
 const postSchema = new Schema({
@@ -14,7 +13,12 @@ const postSchema = new Schema({
     default: true,
   },
   scheduled:{
-    type:Date
+    type:Boolean,
+    default:false
+  },
+  publishDate: {
+    type: Date,
+    default: Date.now(),
   },
   comments: [{ type: Types.ObjectId, ref: "Comment" }],
 });
