@@ -6,6 +6,7 @@ const postModel_1 = require("../../database/models/postModel");
 exports.checkScheduledPosts = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let posts = await postModel_1.Post.find({ scheduled: true });
     posts.map(async (ele) => {
+        // set automatically the finished property based on the publish date
         ele.finished = ele.publishDate <= new Date();
         await ele.save();
     });

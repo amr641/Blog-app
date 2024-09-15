@@ -21,7 +21,6 @@ const editComment = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let comment = await commentModel_1.Comment.findById(req.params.id);
     if (!comment)
         return next(new appError_1.AppError("not found", 404));
-    // ensure only the owner can delete or update his replies
     if (String(comment?.user) !== req.user?.userId)
         return next(new appError_1.AppError("un authorized", 401));
     await commentModel_1.Comment.updateOne({ _id: comment._id }, { content: req.body.content, edited: true });
@@ -32,7 +31,6 @@ const deleteComment = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let comment = await commentModel_1.Comment.findById(req.params.id);
     if (!comment)
         return next(new appError_1.AppError("not found", 404));
-    // ensure only the owner can delete or update his replies
     if (String(comment?.user) !== req.user?.userId)
         return next(new appError_1.AppError("un authorized", 401));
     await commentModel_1.Comment.deleteOne({ _id: comment._id });
