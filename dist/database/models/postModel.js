@@ -26,7 +26,7 @@ const postSchema = new mongoose_1.Schema({
     comments: [{ type: mongoose_1.Types.ObjectId, ref: "Comment" }],
 });
 postSchema.post("init", function (doc) {
-    let url = "localhost:3000/uploads/posts";
+    let url = process.env.BASE_URL + "/posts";
     doc.content = url + doc.content;
 });
 exports.Post = (0, mongoose_1.model)("Post", postSchema);

@@ -24,7 +24,7 @@ const postSchema = new Schema({
   comments: [{ type: Types.ObjectId, ref: "Comment" }],
 });
 postSchema.post("init", function (doc) {
-  let url = "localhost:3000/uploads/posts";
+  let url = process.env.BASE_URL+"/posts";
   doc.content = url + doc.content;
 });
 export const Post = model("Post", postSchema);

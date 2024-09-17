@@ -13,7 +13,19 @@ const addPost = (0, catchErrors_1.catchError)(async (req, res, next) => {
 });
 exports.addPost = addPost;
 const getAllPosts = (0, catchErrors_1.catchError)(async (req, res, next) => {
-    let apiFeatuers = new apiFeatures_1.ApiFeatuers(postModel_1.Post.find({ finished: true }), req.query)
+    let apiFeatuers = new apiFeatures_1.ApiFeatuers(postModel_1.Post.find({ finished: true }).populate({
+        path: "comments", // Populate comments
+        populate: {
+            // Nested populate for replies in each comment
+            path: "replies", // Populate replies inside comments
+            model: "Reply", // Specify the model for replies
+            populate: {
+                path: "user", // You can further populate the 'user' who posted the reply
+                select: "name -_id", // Optional: Select fields like 'name' of the user
+            },
+        },
+    })
+        .populate("comments.user", "name"), req.query)
         .search();
     let posts = await apiFeatuers.mongooseQuery;
     res.status(200).json({ message: "success", posts });

@@ -18,7 +18,7 @@ const userSchema = new mongoose_1.Schema({
     },
 });
 userSchema.post("find", function (doc) {
-    let url = "localhost:3000/uploads/user";
+    let url = process.env.BASE_URL + "/user";
     doc.avatar = url + doc.avatar;
 });
 exports.User = (0, mongoose_1.model)("User", userSchema);

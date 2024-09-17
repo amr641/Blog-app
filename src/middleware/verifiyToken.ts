@@ -23,7 +23,7 @@ export const verfifyToken = (
   next: NextFunction
 ) => {
   const token: any | string = req.headers?.token;
-  jwt.verify(token, "amoor", async (err: any, decoded: any) => {
+  jwt.verify(token, process.env.JWT_KEY  as string, async (err: any, decoded: any) => {
     if (err) return next(new AppError("inavlid token", 401));
     let user = await User.findById(decoded.userId);
     // console.log(user);

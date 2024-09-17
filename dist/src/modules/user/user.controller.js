@@ -15,7 +15,7 @@ const signUp = (0, catchErrors_1.catchError)(async (req, res, next) => {
     req.body.password = bcrypt_1.default.hashSync(req.body.password, 10);
     req.body.avatar = req.file?.filename;
     let user = await userModel_1.User.create(req.body);
-    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, "amoor");
+    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
     return res.status(201).json({ message: "success", token });
 });
 exports.signUp = signUp;
@@ -23,8 +23,21 @@ const login = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let user = await userModel_1.User.findOne({ email: req.body.email });
     if (!user || !bcrypt_1.default.compare(req.body.password, user.password))
         return next(new appError_1.AppError("incorrect email or password", 403));
-    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, "amoor");
-    let posts = await postModel_1.Post.find({ finished: true }).populate("comments");
+    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
+    let posts = await postModel_1.Post.find({ finished: true })
+        .populate({
+        path: "comments", // Populate comments
+        populate: {
+            // Nested populate for replies in each comment
+            path: "replies", // Populate replies inside comments
+            model: "Reply", // Specify the model for replies
+            populate: {
+                path: "user", // You can further populate the 'user' who posted the reply
+                select: "name -_id", // Optional: Select fields like 'name' of the user
+            },
+        },
+    })
+        .populate("comments.user", "name");
     return res
         .status(201)
         .json({ message: `welcome back ${user.name}`, token, posts });

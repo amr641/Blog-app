@@ -17,7 +17,7 @@ const changeUserPassword = async (req, res, next) => {
     // hash the new password
     req.body.newPassword = bcrypt_1.default.hashSync(req.body.newPassword, 8);
     // add the changed date
-    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, "amoor");
+    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
     // update and insert it into dataBase
     await userModel_1.User.updateOne({ _id: req.user?.userId }, {
         password: req.body.newPassword,

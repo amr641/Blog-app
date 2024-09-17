@@ -17,7 +17,19 @@ interface  query{
 }
 const getAllPosts = catchError(
   async (req: Request<{}, {}, {}, query>, res: Response, next: NextFunction): Promise<void> => {  
-    let apiFeatuers = new ApiFeatuers(Post.find({finished:true}), req.query)
+    let apiFeatuers = new ApiFeatuers(Post.find({finished:true}).populate({
+      path: "comments", // Populate comments
+      populate: {
+        // Nested populate for replies in each comment
+        path: "replies", // Populate replies inside comments
+        model: "Reply", // Specify the model for replies
+        populate: {
+          path: "user", // You can further populate the 'user' who posted the reply
+          select: "name -_id", // Optional: Select fields like 'name' of the user
+        },
+      },
+    })
+    .populate("comments.user", "name"), req.query)
     .search();
 
   let posts = await apiFeatuers.mongooseQuery;

@@ -16,7 +16,7 @@ const changeUserPassword = async (req:Request, res:Response, next:NextFunction) 
     // add the changed date
     let token = jwt.sign(
       { userId: user._id,name:user.name,email:user.email },
-      "amoor"
+      process.env.JWT_KEY as string
     );
     // update and insert it into dataBase
     await User.updateOne(

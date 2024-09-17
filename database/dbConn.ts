@@ -1,7 +1,7 @@
 import { connect } from "mongoose";
 
 export const dbConn=  ( ):void => {
-    connect('mongodb://localhost:27017/blog')
+    connect(process.env.DB_URI as string)
     .then(()=>{
     console.log('DB connected');
 }).catch(()=>{

@@ -15,7 +15,7 @@ const signUp = catchError(
     let user = await User.create(req.body);
     let token = jwt.sign(
       { userId: user._id, name: user.name, email: user.email },
-      "amoor"
+      process.env.JWT_KEY as string
     );
     return res.status(201).json({ message: "success", token });
   }
@@ -28,12 +28,25 @@ const login = catchError(
       return next(new AppError("incorrect email or password", 403));
     let token = jwt.sign(
       { userId: user._id, name: user.name, email: user.email },
-      "amoor"
+      process.env.JWT_KEY as string
     );
-    let posts = await Post.find({finished:true}).populate("comments");
+    let posts = await Post.find({ finished: true })
+      .populate({
+        path: "comments", // Populate comments
+        populate: {
+          // Nested populate for replies in each comment
+          path: "replies", // Populate replies inside comments
+          model: "Reply", // Specify the model for replies
+          populate: {
+            path: "user", // You can further populate the 'user' who posted the reply
+            select: "name -_id", // Optional: Select fields like 'name' of the user
+          },
+        },
+      })
+      .populate("comments.user", "name");
     return res
       .status(201)
-      .json({ message: `welcome back ${user.name}`, token,posts});
+      .json({ message: `welcome back ${user.name}`, token, posts });
   }
 );
 // only the user can update his profile

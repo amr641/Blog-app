@@ -16,7 +16,7 @@ const userSchema = new Schema({
   },
 });
 userSchema.post("find", function (doc) {
-  let url = "localhost:3000/uploads/user";
+  let url = process.env.BASE_URL+"/user";
   doc.avatar = url + doc.avatar;
 });
 
