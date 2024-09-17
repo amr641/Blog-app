@@ -7,6 +7,7 @@ const appError_1 = require("../../utils/appError");
 const apiFeatures_1 = require("../../utils/apiFeatures");
 const addPost = (0, catchErrors_1.catchError)(async (req, res, next) => {
     req.body.user = req.user?.userId;
+    req.body.content = req.file?.filename;
     let post = await postModel_1.Post.create(req.body);
     res.status(201).json({ message: "success", post });
 });

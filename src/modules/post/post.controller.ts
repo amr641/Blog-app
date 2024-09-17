@@ -7,6 +7,7 @@ import { ApiFeatuers } from "../../utils/apiFeatures";
 const addPost = catchError(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     req.body.user = req.user?.userId;
+    req.body.content = req.file?.filename;
     let post = await Post.create(req.body);
     res.status(201).json({ message: "success", post });
   }

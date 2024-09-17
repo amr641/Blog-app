@@ -6,7 +6,7 @@ import { AppError } from "../../utils/appError";
 import { Reply } from "../../../database/models/repliesModel";
 // add comment
 const replyToComment = catchError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction):Promise<void> => {
     let addReplie = await Reply.create({
       user: req.user?.userId,
       content: req.body.content,
@@ -22,7 +22,7 @@ const replyToComment = catchError(
   }
 );
 const editReply = catchError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction):Promise<void> => {
     let reply = await Reply.findById(req.params.id);
     if (!reply) return next(new AppError("not found", 404));
         // ensure only the owner can delete or update his replies
@@ -34,7 +34,7 @@ const editReply = catchError(
   }
 );
 const deleteReply = catchError(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction):Promise<void> => {
     let reply = await Reply.findById(req.params.id);
     if (!reply) return next(new AppError("not found", 404));
     // ensure only the owner can delete or update his replies

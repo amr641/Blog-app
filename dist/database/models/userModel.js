@@ -9,16 +9,15 @@ const userSchema = new mongoose_1.Schema({
     avatar: String,
     bio: String,
     prefernces: String,
-    changedPassword: {
-        type: Boolean,
-        default: false
+    passwordChangedTime: {
+        type: Date,
     },
     status: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 });
-userSchema.post('find', function (doc) {
+userSchema.post("find", function (doc) {
     let url = "localhost:3000/uploads/user";
     doc.avatar = url + doc.avatar;
 });

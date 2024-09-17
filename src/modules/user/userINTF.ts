@@ -3,6 +3,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
+  passwordChangedTime:Date
   avatar: string;
   bio: string;
   changedPassword: boolean;
