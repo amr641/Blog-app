@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { catchError } from "../../middleware/errorHandeling/catchErrors";
-import { Post } from "../../../database/models/postModel";
 import { Comment } from "../../../database/models/commentModel";
 import { AppError } from "../../utils/appError";
 import { Reply } from "../../../database/models/repliesModel";
