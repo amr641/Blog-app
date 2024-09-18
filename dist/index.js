@@ -10,6 +10,7 @@ require("dotenv/config");
 const app = (0, express_1.default)();
 const port = 3000;
 (0, dbConn_1.dbConn)();
+app.use(express_1.default.static("uploads"));
 app.use(express_1.default.json());
 app.use('/uploads', express_1.default.static('src/uploads'));
 (0, bootstrab_1.bootstrab)(app);

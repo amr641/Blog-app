@@ -9,6 +9,9 @@ const replySchema = new Schema({
     type: Boolean,
     default: false,
   },
-  content: String,
+  content: {
+    type:String,
+    required:true
+  },
 });
 export const Reply = model("Reply", replySchema);

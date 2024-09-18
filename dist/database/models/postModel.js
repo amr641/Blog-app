@@ -6,9 +6,13 @@ const postSchema = new mongoose_1.Schema({
     user: {
         type: mongoose_1.Types.ObjectId,
         ref: "User",
+        required: true,
     },
-    title: String,
-    content: String,
+    title: { type: String, required: true, min: 1, max: 50 },
+    content: {
+        type: String,
+        required: true
+    },
     category: String,
     tags: [String],
     finished: {
@@ -17,7 +21,7 @@ const postSchema = new mongoose_1.Schema({
     },
     scheduled: {
         type: Boolean,
-        default: false
+        default: false,
     },
     publishDate: {
         type: Date,
@@ -25,8 +29,8 @@ const postSchema = new mongoose_1.Schema({
     },
     comments: [{ type: mongoose_1.Types.ObjectId, ref: "Comment" }],
 });
-postSchema.post("init", function (doc) {
-    let url = process.env.BASE_URL + "/posts";
+postSchema.post("find", function (doc) {
+    let url = process.env.BASE_URL + "/posts/";
     doc.content = url + doc.content;
 });
 exports.Post = (0, mongoose_1.model)("Post", postSchema);

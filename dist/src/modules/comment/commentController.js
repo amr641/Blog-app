@@ -11,9 +11,9 @@ const addComment = (0, catchErrors_1.catchError)(async (req, res, next) => {
         user: req.user?.userId,
         content: req.body.content,
     });
-    let post = await postModel_1.Post.findByIdAndUpdate(req.params.id, { $push: { comments: addedComment._id } }, { new: true }).populate("comments");
-    console.log(req.params);
-    console.log(post);
+    let post = await postModel_1.Post.findByIdAndUpdate(req.params.postId, { $push: { comments: addedComment._id } }, { new: true }).populate("comments");
+    if (!post)
+        return next(new appError_1.AppError("post not found", 404));
     res.status(201).json({ message: "success", post });
 });
 exports.addComment = addComment;

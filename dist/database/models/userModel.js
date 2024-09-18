@@ -3,12 +3,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = require("mongoose");
 const userSchema = new mongoose_1.Schema({
-    name: String,
-    email: String,
-    password: String,
+    name: {
+        type: String,
+        required: true,
+        max: 30,
+        min: 3
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true
+    },
     avatar: String,
     bio: String,
-    prefernces: String,
+    preferences: String,
     passwordChangedTime: {
         type: Date,
     },

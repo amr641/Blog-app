@@ -13,6 +13,8 @@ const replyToComment = (0, catchErrors_1.catchError)(async (req, res, next) => {
     });
     // passing the comment id into params
     let comment = await commentModel_1.Comment.findByIdAndUpdate(req.params.id, { $push: { replies: addReplie._id } }, { new: true }).populate("replies");
+    if (!comment)
+        return next(new appError_1.AppError("commnet not found", 404));
     res.status(201).json({ message: "success", comment });
 });
 exports.replyToComment = replyToComment;

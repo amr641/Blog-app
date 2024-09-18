@@ -12,14 +12,15 @@ const addComment = catchError(
     });
 
     let post = await Post.findByIdAndUpdate(
-      req.params.id,
+      req.params.postId,
       { $push: { comments: addedComment._id } },
       { new: true }
     ).populate("comments");
-    console.log(req.params);
-    console.log(post);
+    if(!post) return next(new AppError("post not found",404))
     res.status(201).json({ message: "success", post });
+
   }
+
 );
 const editComment = catchError(
   async (req: Request, res: Response, next: NextFunction) => {

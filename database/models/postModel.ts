@@ -4,18 +4,22 @@ const postSchema = new Schema({
   user: {
     type: Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  title:String,
-  content: String,
+  title: { type: String, required: true, min: 1, max: 50 },
+  content: {
+    type: String,
+    required:true
+  },
   category: String,
   tags: [String],
   finished: {
     type: Boolean,
     default: true,
   },
-  scheduled:{
-    type:Boolean,
-    default:false
+  scheduled: {
+    type: Boolean,
+    default: false,
   },
   publishDate: {
     type: Date,
@@ -23,8 +27,8 @@ const postSchema = new Schema({
   },
   comments: [{ type: Types.ObjectId, ref: "Comment" }],
 });
-postSchema.post("init", function (doc) {
-  let url = process.env.BASE_URL+"/posts";
+postSchema.post("find", function (doc) {
+  let url = process.env.BASE_URL + "/posts/";
   doc.content = url + doc.content;
 });
 export const Post = model("Post", postSchema);

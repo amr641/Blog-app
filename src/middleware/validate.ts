@@ -3,7 +3,10 @@ import { AppError } from "../utils/appError";
 
 const validate = (schema:any) => {
   return (req:Request, res:Response, next:NextFunction) => {
-    let files = () => {return {[`${req.file?.fieldname}`]: req.file };}
+    let files = () => {
+      if(!req.file)return {}
+      return {[`${req.file?.fieldname}`]: req.file };
+    }
       
     
     const { error } = schema.validate(

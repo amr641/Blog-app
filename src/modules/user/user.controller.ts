@@ -60,7 +60,7 @@ const updateUserProfile = catchError(
     if (req.file) {
       req.body.avatar = req.file.filename;
 
-      removeOldImage(user?.avatar);
+      removeOldImage(user?.avatar,"user");
     }
     res.status(201).json({ message: "success" });
   }

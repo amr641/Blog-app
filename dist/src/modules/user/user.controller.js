@@ -50,7 +50,7 @@ const updateUserProfile = (0, catchErrors_1.catchError)(async (req, res, next) =
         return next(new appError_1.AppError("user not found please register", 404));
     if (req.file) {
         req.body.avatar = req.file.filename;
-        (0, removeOldImage_1.removeOldImage)(user?.avatar);
+        (0, removeOldImage_1.removeOldImage)(user?.avatar, "user");
     }
     res.status(201).json({ message: "success" });
 });

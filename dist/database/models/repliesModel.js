@@ -11,6 +11,9 @@ const replySchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
-    content: String,
+    content: {
+        type: String,
+        required: true
+    },
 });
 exports.Reply = (0, mongoose_1.model)("Reply", replySchema);

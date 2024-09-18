@@ -11,7 +11,10 @@ const commentSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
-    content: String,
+    content: {
+        type: String,
+        required: true
+    },
     replies: [
         {
             type: mongoose_1.Types.ObjectId,

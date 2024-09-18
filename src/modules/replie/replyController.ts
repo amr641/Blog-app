@@ -17,7 +17,7 @@ const replyToComment = catchError(
       { $push: { replies: addReplie._id } },
       { new: true }
     ).populate("replies")
-
+if(!comment)return next(new AppError("commnet not found",404))
     res.status(201).json({ message: "success", comment });
   }
 );
