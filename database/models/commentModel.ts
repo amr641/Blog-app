@@ -9,6 +9,7 @@ const commentSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  post:{type:Types.ObjectId,ref:"Post"},
   content: String,
   replies: [
     {

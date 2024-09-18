@@ -11,6 +11,7 @@ const commentSchema = new mongoose_1.Schema({
         type: Boolean,
         default: false,
     },
+    post: { type: mongoose_1.Types.ObjectId, ref: "Post" },
     content: String,
     replies: [
         {
