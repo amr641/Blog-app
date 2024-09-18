@@ -3,7 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const appError_1 = require("../utils/appError");
 const validate = (schema) => {
     return (req, res, next) => {
-        let files = () => { return { [`${req.file?.fieldname}`]: req.file }; };
+        let files = () => {
+            if (!req.file)
+                return {};
+            return { [`${req.file?.fieldname}`]: req.file };
+        };
+        console.log(req.query);
         const { error } = schema.validate({
             ...req.body,
             ...req.params,

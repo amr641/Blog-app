@@ -8,7 +8,7 @@ const joi_1 = __importDefault(require("joi"));
 const signupVal = joi_1.default.object({
     name: joi_1.default.string().min(5).max(30).required(),
     email: joi_1.default.string().email().required(),
-    passowrd: joi_1.default.string().pattern(/^[A-Z][a-zA-Z0-9]{8,40}$/).required(),
+    password: joi_1.default.string().required(),
     rePassword: joi_1.default.valid(joi_1.default.ref('passowrd')).required(),
     bio: joi_1.default.string(),
     preferences: joi_1.default.string(),
@@ -26,7 +26,7 @@ const signupVal = joi_1.default.object({
 exports.signupVal = signupVal;
 const signInVal = joi_1.default.object({
     email: joi_1.default.string().email().required(),
-    passowrd: joi_1.default.string().pattern(/^[A-Z][a-zA-Z0-9]{8,40}$/).required()
+    password: joi_1.default.string().required()
 });
 exports.signInVal = signInVal;
 const updateProfileVal = joi_1.default.object({

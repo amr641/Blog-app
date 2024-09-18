@@ -3,7 +3,7 @@ import Joi from "joi";
 const signupVal=Joi.object({
     name:Joi.string().min(5).max(30).required(),
     email:Joi.string().email().required(),
-    passowrd:Joi.string().pattern(/^[A-Z][a-zA-Z0-9]{8,40}$/).required(),
+    password:Joi.string().required(),
     rePassword:Joi.valid(Joi.ref('passowrd')).required(),
     bio:Joi.string(),
     preferences:Joi.string(),
@@ -21,7 +21,7 @@ const signupVal=Joi.object({
 
 const signInVal=Joi.object({
     email:Joi.string().email().required(),
-    passowrd:Joi.string().pattern(/^[A-Z][a-zA-Z0-9]{8,40}$/).required()
+    password:Joi.string().required()
 })
 const updateProfileVal=Joi.object({
     name:Joi.string().min(5).max(30),

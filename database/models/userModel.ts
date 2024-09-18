@@ -14,6 +14,8 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  accountId:String,
+  provider:String
 });
 userSchema.post("find", function (doc) {
   let url = process.env.BASE_URL+"/user";
