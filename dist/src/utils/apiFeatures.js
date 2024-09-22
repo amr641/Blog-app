@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiFeatuers = void 0;
 class ApiFeatuers {
+    mongooseQuery;
+    searchQuery;
     constructor(mongooseQuery, searchQuery) {
         this.mongooseQuery = mongooseQuery;
         this.searchQuery = searchQuery;

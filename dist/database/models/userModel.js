@@ -5,17 +5,14 @@ const mongoose_1 = require("mongoose");
 const userSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: true,
         max: 30,
-        min: 3
+        min: 3,
     },
     email: {
         type: String,
-        required: true,
     },
     password: {
         type: String,
-        required: true
     },
     avatar: String,
     bio: String,
@@ -26,6 +23,12 @@ const userSchema = new mongoose_1.Schema({
     status: {
         type: Boolean,
         default: false,
+    },
+    provider: {
+        type: String,
+    },
+    accountId: {
+        type: String,
     },
 });
 userSchema.post("find", function (doc) {

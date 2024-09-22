@@ -11,6 +11,7 @@ declare global {
         userId: string;
         name: string;
         email: string;
+        displayName:string
         iat:number
       };
       

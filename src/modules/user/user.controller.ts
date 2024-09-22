@@ -8,6 +8,7 @@ import { IUser } from "./userINTF";
 import { removeOldImage } from "../../utils/removeOldImage";
 import { Post } from "../../../database/models/postModel";
 
+
 const signUp = catchError(
   async (req: Request, res: Response, next: NextFunction) => {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
@@ -49,6 +50,8 @@ const login = catchError(
       .json({ message: `welcome back ${user.name}`, token, posts });
   }
 );
+// login with facebook
+
 // only the user can update his profile
 const updateUserProfile = catchError(
   async (req: Request | any, res: Response, next: NextFunction) => {

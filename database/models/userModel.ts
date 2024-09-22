@@ -2,19 +2,15 @@ import { Schema, model } from "mongoose";
 
 const userSchema = new Schema({
   name: {
-    type:String ,
-    required:true,
-    max:30, 
-    min:3
+    type: String,
+    max: 30,
+    min: 3,
   },
   email: {
-    type:String,
-    required:true,
-    
+    type: String,
   },
-  password:{
-    type:String,
-    required:true
+  password: {
+    type: String,
   },
   avatar: String,
   bio: String,
@@ -26,9 +22,15 @@ const userSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  provider: {
+    type: String,
+  },
+  accountId: {
+    type: String,
+  },
 });
 userSchema.post("find", function (doc) {
-  let url = process.env.BASE_URL+"/user";
+  let url = process.env.BASE_URL + "/user";
   doc.avatar = url + doc.avatar;
 });
 

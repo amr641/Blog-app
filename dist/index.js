@@ -13,5 +13,6 @@ const port = 3000;
 app.use(express_1.default.static("uploads"));
 app.use(express_1.default.json());
 app.use('/uploads', express_1.default.static('src/uploads'));
+// Middleware for session management
 (0, bootstrab_1.bootstrab)(app);
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

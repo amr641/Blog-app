@@ -43,6 +43,7 @@ const login = (0, catchErrors_1.catchError)(async (req, res, next) => {
         .json({ message: `welcome back ${user.name}`, token, posts });
 });
 exports.login = login;
+// login with facebook
 // only the user can update his profile
 const updateUserProfile = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let user = await userModel_1.User.findByIdAndUpdate(req.user.userId, req.body);
