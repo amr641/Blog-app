@@ -19,11 +19,3 @@ A simple blog platform built using **TypeScript**. This project allows users to 
 - **JWT**: JSON Web Tokens for secure authentication.
 - **Passport.js**: Authentication middleware for handling strategies like OAuth.
 
-## 🚀 Getting Started
-
-Follow these steps to set up the project locally:
-
-### 1. Clone the repository:
-
-```bash
-git clone https://github.com/amr641/Blog-app.git
