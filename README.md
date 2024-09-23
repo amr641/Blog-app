@@ -19,3 +19,5 @@ A simple blog platform built using **TypeScript**. This project allows users to 
 - **JWT**: JSON Web Tokens for secure authentication.
 - **Passport.js**: Authentication middleware for handling strategies like OAuth.
 
+- ## 🛠️ Postman Documentation :https://documenter.getpostman.com/view/36174729/2sAXqv4LSS
+
