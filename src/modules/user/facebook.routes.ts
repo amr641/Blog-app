@@ -40,9 +40,9 @@ passport.deserializeUser(function (obj: any, done) {
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env.FACEBOOK_APP_ID || "347803424993032", // Use environment variables for security
+      clientID: process.env.FACEBOOK_APP_ID, // Use environment variables for security
       clientSecret:
-        process.env.FACEBOOK_APP_SECRET || "afa180595ae501d79d699eb39c1f6ef9", // Avoid hard-coding secrets
+        process.env.FACEBOOK_APP_SECRET , // Avoid hard-coding secrets
       callbackURL: "http://localhost:3000/auth/facebook/callback",
       profileFields: ["id", "displayName", "email"], // Fetch required fields
     },
