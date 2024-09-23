@@ -27,6 +27,8 @@ const login = catchError(
 
     if (!user || !bcrypt.compare(req.body.password, user.password))
       return next(new AppError("incorrect email or password", 403));
+  // update user to be online
+  await User.updateOne({status:true})
     let token = jwt.sign(
       { userId: user._id, name: user.name, email: user.email },
       process.env.JWT_KEY as string
@@ -76,4 +78,10 @@ const deleteUserProfile = catchError(
     !user || res.status(200).json({ message: "deleted successfully" });
   }
 );
-export { signUp, login, updateUserProfile, deleteUserProfile };
+const logout =catchError(async(req: Request, res: Response, next: NextFunction)=>{
+  let user:IUser|null = await User.findById(req.user?.userId)
+ if(!user)return next(new AppError("user not found",404))
+ await User.updateOne({_id:user._id},{status:false})
+ res.status(200).json({message:"logged out😢"})
+})
+export { signUp, login, updateUserProfile, deleteUserProfile,logout };

@@ -34,6 +34,7 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (obj: any, done) {
   done(null, obj);
 });
+// postman-to-openapi 'D:\projects\Blog-app\blog.postman_collection.json' -o 'path/to/swagger-doc.yaml' --yaml
 
 // Configure Facebook Strategy
 passport.use(
@@ -86,7 +87,7 @@ facebookRouter.get(
       }
 
       // Fetch user from DB
-      let acc: IUser | null = await User.findOne({ accountId: user.accountId });
+      let acc:any = await User.findOne({ accountId: user.accountId });
 
       if (!acc) {
         return next(new AppError("user not found", 404));
@@ -98,25 +99,29 @@ facebookRouter.get(
         process.env.JWT_KEY as string,
         { expiresIn: "1h" } // Token expiry for security
       );
+      acc.status= true
+      await acc.save()
       // posts
       let posts = await Post.find({ finished: true })
-      .populate({
-        path: "comments", // Populate comments
-        populate: {
-          // Nested populate for replies in each comment
-          path: "replies", // Populate replies inside comments
-          model: "Reply", // Specify the model for replies
+        .populate({
+          path: "comments", // Populate comments
           populate: {
-            path: "user", // You can further populate the 'user' who posted the reply
-            select: "name -_id", // Optional: Select fields like 'name' of the user
+            // Nested populate for replies in each comment
+            path: "replies", // Populate replies inside comments
+            model: "Reply", // Specify the model for replies
+            populate: {
+              path: "user", // You can further populate the 'user' who posted the reply
+              select: "name -_id", // Optional: Select fields like 'name' of the user
+            },
           },
-        },
-      })
-      .populate("comments.user", "name");
+        })
+        .populate("comments.user", "name");
 
       // Successful authentication, send token
       // console.log(user);
-      res.status(200).json({ message: `welcome back ${acc.name}`, token, posts});
+      res
+        .status(200)
+        .json({ message: `welcome back ${acc.name}`, token, posts });
     })(req, res, next); // Execute passport authentication
   })
 );

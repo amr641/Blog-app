@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserProfile = exports.updateUserProfile = exports.login = exports.signUp = void 0;
+exports.logout = exports.deleteUserProfile = exports.updateUserProfile = exports.login = exports.signUp = void 0;
 const userModel_1 = require("../../../database/models/userModel");
 const catchErrors_1 = require("../../middleware/errorHandeling/catchErrors");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -23,6 +23,8 @@ const login = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let user = await userModel_1.User.findOne({ email: req.body.email });
     if (!user || !bcrypt_1.default.compare(req.body.password, user.password))
         return next(new appError_1.AppError("incorrect email or password", 403));
+    // update user to be online
+    await userModel_1.User.updateOne({ status: true });
     let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
     let posts = await postModel_1.Post.find({ finished: true })
         .populate({
@@ -63,3 +65,11 @@ const deleteUserProfile = (0, catchErrors_1.catchError)(async (req, res, next) =
     !user || res.status(200).json({ message: "deleted successfully" });
 });
 exports.deleteUserProfile = deleteUserProfile;
+const logout = (0, catchErrors_1.catchError)(async (req, res, next) => {
+    let user = await userModel_1.User.findById(req.user?.userId);
+    if (!user)
+        return next(new appError_1.AppError("user not found", 404));
+    await userModel_1.User.updateOne({ _id: user._id }, { status: false });
+    res.status(200).json({ message: "logged out😢" });
+});
+exports.logout = logout;

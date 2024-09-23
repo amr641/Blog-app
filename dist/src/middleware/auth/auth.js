@@ -13,27 +13,30 @@ const changeUserPassword = async (req, res, next) => {
     const user = await userModel_1.User.findById(req.user?.userId);
     // compare old password with the provided one.
     if (!user || !bcrypt_1.default.compareSync(req.body.oldPassword, user.password))
-        return next(new appError_1.AppError('your oldPassword is incorrect', 401));
+        return next(new appError_1.AppError("your oldPassword is incorrect", 401));
     // hash the new password
     req.body.newPassword = bcrypt_1.default.hashSync(req.body.newPassword, 8);
     // add the changed date
-    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
     // update and insert it into dataBase
     await userModel_1.User.updateOne({ _id: req.user?.userId }, {
         password: req.body.newPassword,
         passwordChangedTime: Date.now(),
     });
-    res.status(201).json({ message: 'password changed successfully', token });
+    let token = jsonwebtoken_1.default.sign({ userId: user._id, name: user.name, email: user.email }, process.env.JWT_KEY);
+    res.status(201).json({ message: "password changed successfully", token });
 };
 exports.changeUserPassword = changeUserPassword;
 const protectRoutes = (0, catchErrors_1.catchError)(async (req, res, next) => {
     let user = await userModel_1.User.findById(req.user?.userId);
     if (!user)
         return next(new appError_1.AppError("user not found", 404));
+    // user must be online
+    if (!user.status)
+        return next(new appError_1.AppError("login first", 409));
     // seconds==>millie seconds ==> Date
     const secondsToDate = (seconds) => new Date(seconds * 1000);
     if (secondsToDate(req.user?.iat) < user?.passwordChangedTime)
-        return next(new appError_1.AppError('expired token..login again', 409));
+        return next(new appError_1.AppError("expired token..login again", 409));
     next();
 });
 exports.protectRoutes = protectRoutes;

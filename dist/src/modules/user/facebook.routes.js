@@ -32,6 +32,7 @@ passport_1.default.serializeUser(function (user, done) {
 passport_1.default.deserializeUser(function (obj, done) {
     done(null, obj);
 });
+// postman-to-openapi 'D:\projects\Blog-app\blog.postman_collection.json' -o 'path/to/swagger-doc.yaml' --yaml
 // Configure Facebook Strategy
 passport_1.default.use(new passport_facebook_1.Strategy({
     clientID: process.env.FACEBOOK_APP_ID || "347803424993032", // Use environment variables for security
@@ -78,6 +79,8 @@ exports.facebookRouter.get("/auth/facebook/callback", (0, catchErrors_1.catchErr
         // Generate JWT token
         const token = jsonwebtoken_1.default.sign({ name: acc.name, userId: acc._id }, process.env.JWT_KEY, { expiresIn: "1h" } // Token expiry for security
         );
+        acc.status = true;
+        await acc.save();
         // posts
         let posts = await postModel_1.Post.find({ finished: true })
             .populate({
@@ -95,6 +98,8 @@ exports.facebookRouter.get("/auth/facebook/callback", (0, catchErrors_1.catchErr
             .populate("comments.user", "name");
         // Successful authentication, send token
         // console.log(user);
-        res.status(200).json({ message: `welcome back ${acc.name}`, token, posts });
+        res
+            .status(200)
+            .json({ message: `welcome back ${acc.name}`, token, posts });
     })(req, res, next); // Execute passport authentication
 }));
